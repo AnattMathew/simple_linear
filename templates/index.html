@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <h2>📈 Sales Revenue Prediction</h2>
+            <p>Enter your advertising spend to estimate future sales revenue.</p>
+            
+            <form method="POST">
+                <label for="advertising_spend">💰 Advertising Spend ($):</label>
+                <input type="number" name="advertising_spend" required>
+                
+                <button type="submit">🚀 Predict</button>
+            </form>
+
+            {% if prediction is not none %}
+            <div class="result">
+                <h3>🔮 Predicted Sales Revenue: <span>${{ prediction | round(2) }}</span></h3>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

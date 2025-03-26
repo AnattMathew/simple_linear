@@ -13,15 +13,37 @@
             <p>Enter your advertising spend to estimate future sales revenue.</p>
             
             <form method="POST">
-                <label for="advertising_spend">💰 Advertising Spend ($):</label>
-                <input type="number" name="advertising_spend" required>
+                <div class="form-group">
+                    <label for="Advertising_Spend">💰 Advertising Spend ($):</label>
+                    <input type="number" 
+                           name="Advertising_Spend" 
+                           id="Advertising_Spend"
+                           step="0.01"
+                           min="0"
+                           value="{{ ad_spend if ad_spend else '' }}"
+                           required>
+                </div>
                 
                 <button type="submit">🚀 Predict</button>
             </form>
 
-            {% if prediction is not none %}
+            {% if error_message %}
+            <div class="error">
+                <h3>{{ error_message }}</h3>
+            </div>
+            {% endif %}
+
+            {% if prediction %}
             <div class="result">
-                <h3>🔮 Predicted Sales Revenue: <span>${{ prediction | round(2) }}</span></h3>
+                {% if prediction is string %}
+                    <h3>{{ prediction }}</h3>
+                {% else %}
+                    <div class="prediction-details">
+                        <p>📊 Input Advertising Spend: <span class="value">${{ "%.2f"|format(prediction.ad_spend) }}</span></p>
+                        <h3>🔮 Predicted Sales Revenue: <span class="value">${{ "%.2f"|format(prediction.value) }}</span></h3>
+                        <p class="confidence">Confidence Interval: ±${{ "%.2f"|format(prediction.ci) }}</p>
+                    </div>
+                {% endif %}
             </div>
             {% endif %}
         </div>
